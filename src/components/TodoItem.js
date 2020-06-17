@@ -4,7 +4,7 @@ class TodoItem extends Component{
     render(){
         return (
             <div className="TodoItem">
-                <p>Having breakfast</p>
+                <p>{this.props.content}</p>
             </div>
         );
     }
