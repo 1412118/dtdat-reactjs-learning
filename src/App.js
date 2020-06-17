@@ -7,9 +7,9 @@ class App extends Component{
   constructor(){
     super();
     this.todoItems = [
-      'Have breakfast',
-      'Go to work',
-      'Go to the gym'
+      { content: 'Have breakfast', isComplete: true},
+      { content: 'Go to work', isComplete: true},
+      { content: 'Go to the gym', isComplete: false}
     ];
   }
   render(){
@@ -18,7 +18,7 @@ class App extends Component{
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           {
-            this.todoItems.map((item, index) => <TodoItem key={index} content={item} />)
+            this.todoItems.map((item, index) => <TodoItem key={index} item={item} />)
           }
           {/* <TodoItem content="Have breakfast"/>
           <TodoItem content="Go to work"/>
