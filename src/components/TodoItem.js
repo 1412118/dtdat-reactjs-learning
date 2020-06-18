@@ -4,7 +4,7 @@ let classNames = require('classnames');
 
 class TodoItem extends Component{
     render(){
-        let item = this.props.item;
+        let {item, onClick} = this.props;
         /* Solution 1: */
         // let className = 'TodoItem';
         // if(item.isComplete){
@@ -17,6 +17,10 @@ class TodoItem extends Component{
         );
         return (
             <div className={className}>
+                <input className="cb-btn" 
+                        type="checkbox" 
+                        id={item.id} 
+                        onClick={onClick}/>
                 <p>{item.content}</p>
             </div>
         );

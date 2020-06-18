@@ -1,7 +1,24 @@
 .TodoItem{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     border: 1px solid #fff;
     border-radius: 4px;;
     width: 30%;
+    height: auto;
+}
+
+.TodoItem p{
+    margin: 0.5em 0 0.5em 0;
+}
+
+.TodoItem input{
+    margin: 0 1em 0 1em;
+}
+
+.TodoItem .cb-btn{
+    width: 20px;
+    height: 20px;  
 }
 
 .TodoItem-complete{
