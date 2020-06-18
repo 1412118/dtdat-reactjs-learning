@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+.todo-list{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+  height: auto;
+  /* border: 1px solid #000; */
+  background-color: #fff;
+  color: #000;
+}
+
+.todo-list-header{
+  background-color: #fff;
+  color: #000;
+  border-bottom: 1px solid rgba(0,0,0, 0.3);
+  width: 30%;
+  display: flex;
+}
+
+.todo-list-header input{
+  width: 100%;
+  border: none;
+  font-size: 24px;
+}
+
+.todo-list-header input:focus{
+  outline: none;
+}
+
+.todo-list-header img{
+  margin: 0.75em;
+}

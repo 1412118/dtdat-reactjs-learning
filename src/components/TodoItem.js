@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import './TodoItem.css'
+import './TodoItem.css';
+import checkImg from '../images/check.svg';
+import checkCompleteImg from '../images/check-complete.svg';
+
 let classNames = require('classnames');
 
 class TodoItem extends Component{
@@ -15,12 +18,13 @@ class TodoItem extends Component{
             'TodoItem', 
             {'TodoItem-complete': item.isComplete}
         );
+        let url = checkImg;
+        if(item.isComplete){
+            url = checkCompleteImg;
+        }
         return (
             <div className={className}>
-                <input className="cb-btn" 
-                        type="checkbox" 
-                        id={item.id} 
-                        onClick={onClick}/>
+                <img src={url} width={30} onClick={onClick} />
                 <p>{item.content}</p>
             </div>
         );

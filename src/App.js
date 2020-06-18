@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import TodoItem from './components/TodoItem'
+import TodoItem from './components/TodoItem';
+
+import tickImg from './images/tick.svg';
 
 class App extends Component{
   constructor(){
     super();
     this.state = { todoItems: [
-      { id: 0, content: 'Have breakfast', isComplete: false},
-      { id: 1, content: 'Go to work', isComplete: false},
-      { id: 2, content: 'Go to the gym', isComplete: false}
+      { content: 'Have breakfast', isComplete: true},
+      { content: 'Go to work', isComplete: true},
+      { content: 'Go to the gym', isComplete: false}
     ]};
   }
 
-  onCheckboxClick(id){
-      let checkBox = document.getElementById(id);
-      const itemIndex = this.state.todoItems.findIndex(function(e){
-        return e.id === id;
-      });
-      console.log(itemIndex);
-      console.log(this.state.todoItems[id]);
-      if(checkBox.checked === true){
-        this.setState(state => {
-          return state.todoItems[itemIndex].isComplete = true;
-        });
-      }
-      else{
-        this.setState(state => {
-          return state.todoItems[itemIndex].isComplete = false;
-        });
-      }
+  onCheckboxClick(item){
+    //console.log(item);
+    let items = this.state.todoItems;
+    let index = items.indexOf(item);
+    this.setState({
+      todoItems: [
+        ...items.slice(0, index), 
+        {
+          ...item, isComplete: !item.isComplete
+        },
+        ...items.slice(index + 1)
+      ]
+    });
+    console.log(this.state.todoItems);
+  }
+
+  onKeyUp(event){
+    
   }
 
   render(){
@@ -37,15 +40,25 @@ class App extends Component{
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <span style={{fontWeight: 100, fontSize: 50}}>Todos</span>
+          <div className="todo-list-header">
+          {/* <span style={{fontWeight: 100, fontSize: 50}}>Todos</span> */}
+            <img src={tickImg} width={20} height={20}/>
+            <input 
+                type="text" 
+                placeholder="What you gonna do?"
+                onKeyUp={this.onKeyUp}
+                />
+          </div>
+          <div className="todo-list">
           {
-            this.state.todoItems.length > 0 && this.state.todoItems.map((item) => 
-              <TodoItem key={item.id} item={item} onClick={() => this.onCheckboxClick(item.id)}/>
+            this.state.todoItems.length > 0 && this.state.todoItems.map((item, index) => 
+              <TodoItem key={index} item={item} onClick={() => this.onCheckboxClick(item)} />
             )
           }
           {
             this.state.todoItems.length === 0 && 'Nothing here.'
           }
+          </div>
           {/* <TodoItem content="Have breakfast"/>
           <TodoItem content="Go to work"/>
           <TodoItem content="Go to gym"/> */}
