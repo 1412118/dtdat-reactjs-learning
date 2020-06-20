@@ -8,11 +8,16 @@ import tickImg from './images/tick.svg';
 class App extends Component{
   constructor(){
     super();
-    this.state = { todoItems: [
+    this.state = { 
+      newItem: '',
+      todoItems: [
       { content: 'Have breakfast', isComplete: true},
       { content: 'Go to work', isComplete: true},
       { content: 'Go to the gym', isComplete: false}
     ]};
+
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onCheckboxClick(item){
@@ -32,10 +37,44 @@ class App extends Component{
   }
 
   onKeyUp(event){
-    
+    //console.log(event.target.value);
+    //console.log(event.keyCode);
+    //console.log(this);
+    let text = event.target.value;
+    if(event.keyCode === 13){
+      if(!text){
+        return;
+      }
+      let value = text.trim();
+      if(value.length === 0){
+        return;
+      }
+      this.setState({
+        newItem: '',
+        todoItems: [
+          {
+            content: text,
+            isComplete: false
+          },
+          ...this.state.todoItems
+        ]
+      })
+    }
+    else{
+      this.setState({
+        newItem: text
+      })
+    }
+  }
+
+  onChange(event){
+    this.setState({
+      newItem: event.target.value
+    })
   }
 
   render(){
+    const {todoItems, newItem} = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -46,17 +85,23 @@ class App extends Component{
             <input 
                 type="text" 
                 placeholder="What you gonna do?"
+                value={newItem}
                 onKeyUp={this.onKeyUp}
+                onChange={this.onChange}
                 />
           </div>
           <div className="todo-list">
           {
-            this.state.todoItems.length > 0 && this.state.todoItems.map((item, index) => 
-              <TodoItem key={index} item={item} onClick={() => this.onCheckboxClick(item)} />
+            todoItems.length > 0 && todoItems.map((item, index) => 
+              <TodoItem 
+                key={index} 
+                item={item} 
+                onClick={() => this.onCheckboxClick(item)} 
+                />
             )
           }
           {
-            this.state.todoItems.length === 0 && 'Nothing here.'
+            todoItems.length === 0 && 'Nothing here.'
           }
           </div>
           {/* <TodoItem content="Have breakfast"/>
