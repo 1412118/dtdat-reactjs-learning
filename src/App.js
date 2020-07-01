@@ -4,6 +4,7 @@ import './App.css';
 import TodoItem from './components/TodoItem';
 
 import tickImg from './images/tick.svg';
+import tickCompleteImg from './images/tick-complete.svg';
 
 class App extends Component{
   constructor(){
@@ -18,6 +19,7 @@ class App extends Component{
 
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.allOnClick = this.allOnClick.bind(this);
   }
 
   onCheckboxClick(item){
@@ -73,15 +75,60 @@ class App extends Component{
     })
   }
 
+  allOnClick(){
+    let items = this.state.todoItems;
+    let trueValue = items.findIndex(e => e.isComplete === true);
+    if(trueValue !== -1){
+      let hasFalse = items.findIndex(e => e.isComplete === false);
+      if(hasFalse !== -1){
+        items.map(function(e){
+          if(e.isComplete === false){
+            e.isComplete = true;
+          }
+          return e;
+        })
+      }
+      else{
+        items.map(e => {return {...e.isComplete = false}});
+      }
+    }
+    else{
+      items.map(e => {return {...e.isComplete = true}});
+    }
+    this.setState({
+      todoItems: [...items]
+    })
+    //console.log(this.state.todoItems);
+  }
+
   render(){
     const {todoItems, newItem} = this.state;
+    let hasFalse = todoItems.findIndex(e => e.isComplete === false);
+    let hasTrue = todoItems.findIndex(e => e.isComplete === true);
+    let url = tickImg;
+    if(hasFalse !== -1 && hasTrue !== -1){
+      url = tickImg;
+    }
+    else{
+      if(hasFalse === -1){
+        url = tickCompleteImg;
+      }
+      if(hasTrue === -1){
+        url = tickImg;
+      }
+    }
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <div className="todo-list-header">
           {/* <span style={{fontWeight: 100, fontSize: 50}}>Todos</span> */}
-            <img src={tickImg} width={20} height={20}/>
+            <img 
+              src={url} 
+              width={20} 
+              height={20} 
+              onClick={this.allOnClick}
+            />
             <input 
                 type="text" 
                 placeholder="What you gonna do?"
@@ -104,6 +151,9 @@ class App extends Component{
             todoItems.length === 0 && 'Nothing here.'
           }
           </div>
+          {/* <div className="todo-list-footer">
+
+          </div> */}
           {/* <TodoItem content="Have breakfast"/>
           <TodoItem content="Go to work"/>
           <TodoItem content="Go to gym"/> */}

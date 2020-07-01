@@ -27,4 +27,5 @@
 .TodoItem-complete > p{
     text-decoration: line-through;
     opacity: 0.5;
+    transition: all 0.5s;
 }
