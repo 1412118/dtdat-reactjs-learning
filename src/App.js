@@ -12,14 +12,14 @@ class App extends Component{
     this.state = { 
       newItem: '',
       todoItems: [
-      { content: 'Have breakfast', isComplete: true},
-      { content: 'Go to work', isComplete: true},
-      { content: 'Go to the gym', isComplete: false}
+      { id: 0, content: 'Have breakfast', isComplete: true},
+      { id: 1, content: 'Go to work', isComplete: true},
+      { id: 2, content: 'Go to the gym', isComplete: false}
     ]};
 
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.allOnClick = this.allOnClick.bind(this);
+    this.onAllClick = this.onAllClick.bind(this);
   }
 
   onCheckboxClick(item){
@@ -55,6 +55,7 @@ class App extends Component{
         newItem: '',
         todoItems: [
           {
+            id: this.state.todoItems.length,
             content: text,
             isComplete: false
           },
@@ -75,7 +76,7 @@ class App extends Component{
     })
   }
 
-  allOnClick(){
+  onAllClick(){
     let items = this.state.todoItems;
     let trueValue = items.findIndex(e => e.isComplete === true);
     if(trueValue !== -1){
@@ -101,8 +102,20 @@ class App extends Component{
     //console.log(this.state.todoItems);
   }
 
+  onDeleteClick(item){
+    let items = this.state.todoItems;
+    let idx = items.findIndex(e => e.id === item.id);
+    this.setState({
+      todoItems: [
+        ...items.slice(0, idx),
+        ...items.slice(idx + 1)
+      ]
+    })
+  }
+
   render(){
     const {todoItems, newItem} = this.state;
+    console.log(this.state.todoItems);
     let hasFalse = todoItems.findIndex(e => e.isComplete === false);
     let hasTrue = todoItems.findIndex(e => e.isComplete === true);
     let url = tickImg;
@@ -127,15 +140,15 @@ class App extends Component{
               src={url} 
               width={20} 
               height={20} 
-              onClick={this.allOnClick}
+              onClick={this.onAllClick}
             />
             <input 
-                type="text" 
-                placeholder="What you gonna do?"
-                value={newItem}
-                onKeyUp={this.onKeyUp}
-                onChange={this.onChange}
-                />
+              type="text" 
+              placeholder="What you gonna do?"
+              value={newItem}
+              onKeyUp={this.onKeyUp}
+              onChange={this.onChange}
+            />
           </div>
           <div className="todo-list">
           {
@@ -143,7 +156,8 @@ class App extends Component{
               <TodoItem 
                 key={index} 
                 item={item} 
-                onClick={() => this.onCheckboxClick(item)} 
+                onCheckClick={() => this.onCheckboxClick(item)}
+                onDelClick={() => this.onDeleteClick(item)} 
                 />
             )
           }
@@ -151,9 +165,6 @@ class App extends Component{
             todoItems.length === 0 && 'Nothing here.'
           }
           </div>
-          {/* <div className="todo-list-footer">
-
-          </div> */}
           {/* <TodoItem content="Have breakfast"/>
           <TodoItem content="Go to work"/>
           <TodoItem content="Go to gym"/> */}

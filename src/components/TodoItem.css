@@ -9,6 +9,8 @@
 
 .TodoItem p{
     margin: 0.5em 0 0.5em 0;
+    width: 100%;
+    text-align: left;
 }
 
 .TodoItem:last-child{
@@ -28,4 +30,12 @@
     text-decoration: line-through;
     opacity: 0.5;
     transition: all 0.5s;
+}
+
+.TodoItem .delImg{
+    display: none;
+}
+
+.TodoItem:hover .delImg{
+    display: block;
 }
