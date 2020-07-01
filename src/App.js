@@ -17,9 +17,15 @@ class App extends Component{
       { id: 2, content: 'Go to the gym', isComplete: false}
     ]};
 
+    this.inputElement = React.createRef();
+
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAllClick = this.onAllClick.bind(this);
+  }
+
+  componentDidMount(){
+    this.inputElement.current.focus();
   }
 
   onCheckboxClick(item){
@@ -148,6 +154,7 @@ class App extends Component{
               value={newItem}
               onKeyUp={this.onKeyUp}
               onChange={this.onChange}
+              ref={this.inputElement}
             />
           </div>
           <div className="todo-list">
